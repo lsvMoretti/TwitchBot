@@ -34,7 +34,7 @@ namespace UnsociableBot {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("a99lm0yicz9nkgagtz70ywhl2uhzgy")]
+        [global::System.Configuration.DefaultSettingValueAttribute("mihvo9g8bd740xr3fvedcfqx3wxgh7")]
         public string TwitchClientToken {
             get {
                 return ((string)(this["TwitchClientToken"]));

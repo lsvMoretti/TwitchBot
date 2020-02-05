@@ -65,6 +65,8 @@ namespace UnsociableBot
                 Settings.Default.Save();
             }
 
+            Console.Clear();
+
             Settings.Default.Reload();
 
             Console.WriteLine("Settings have been reloaded!");

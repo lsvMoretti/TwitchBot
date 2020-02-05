@@ -4,8 +4,8 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>40bab1d1-85b5-4cd1-9ff7-5838f6b1d67e</UserSecretsId>
-    <AssemblyVersion>1.0.0.30</AssemblyVersion>
-    <FileVersion>1.0.0.30</FileVersion>
+    <AssemblyVersion>1.0.0.48</AssemblyVersion>
+    <FileVersion>1.0.0.48</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

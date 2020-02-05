@@ -6,7 +6,7 @@
       <Value Profile="(Default)">po6jzxesx6kka2tsk6c56etyec6zdq</Value>
     </Setting>
     <Setting Name="TwitchClientToken" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">a99lm0yicz9nkgagtz70ywhl2uhzgy</Value>
+      <Value Profile="(Default)">mihvo9g8bd740xr3fvedcfqx3wxgh7</Value>
     </Setting>
     <Setting Name="UpgradeRequired" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
