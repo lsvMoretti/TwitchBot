@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using Newtonsoft.Json;
 using TwitchLib.Api;
+using TwitchLib.Api.V5.Models.Channels;
 using TwitchLib.Api.V5.Models.Users;
 
 namespace UnsociableBot
@@ -24,7 +25,6 @@ namespace UnsociableBot
             _api = new TwitchAPI();
             _api.Settings.ClientId = Settings.Default.TwitchUsername;
             _api.Settings.AccessToken = Settings.Default.TwitchClientToken;
-            Debug.WriteLine($"TwitchApi");
         }
 
         public static void StartApi()
@@ -55,6 +55,8 @@ namespace UnsociableBot
             }
             Console.WriteLine($"You have notifications for {StreamNotifications.Count} streamers!");
 
+            StreamFollower.InitFollowers();
+
             Task.Run(async () =>
             {
                 while (true)
@@ -72,6 +74,8 @@ namespace UnsociableBot
 
         private static async Task CallsAsync()
         {
+            await StreamFollower.UpdateFollowers();
+
             foreach (string streamNotification in StreamNotifications)
             {
                 if (_lastStreamStatus.ContainsKey(streamNotification))
@@ -118,8 +122,19 @@ namespace UnsociableBot
             return;
         }
 
+        public static async Task<List<ChannelFollow>> FetchFollowers(string username)
+        {
+            new TwitchApi();
+
+            var user = await _api.V5.Users.GetUserByNameAsync(username.ToLower());
+            if (user.Total == 0) return null;
+            return await _api.V5.Channels.GetAllFollowersAsync(user.Matches[0].Id);
+        }
+
         public static async Task<User> FetchUser(string username)
         {
+            new TwitchApi();
+
             Users users = await _api.V5.Users.GetUserByNameAsync(username.ToLower());
 
             if (users.Total == 0)

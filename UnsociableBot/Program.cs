@@ -72,6 +72,7 @@ namespace UnsociableBot
 
             if (string.IsNullOrEmpty(Settings.Default.TwitchClientToken))
             {
+                Console.WriteLine($"You can get a token from: https://twitchtokengenerator.com/");
                 Console.WriteLine($"What is your token?");
                 string token = Console.ReadLine();
 

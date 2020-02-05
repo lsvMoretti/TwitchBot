@@ -16,7 +16,7 @@ namespace UnsociableBot
 {
     public class TwitchBot
     {
-        private TwitchClient client;
+        private static TwitchClient client;
 
         public TwitchBot()
         {
@@ -92,11 +92,12 @@ namespace UnsociableBot
                     if (commandSplit[0].ToLower() == "!help" || commandSplit[0].ToLower() == "!commands")
                     {
                         Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine("");
                         Console.WriteLine($"--- Unsociable's Bot Help ---");
                         Console.WriteLine("!say [Message] - Says a message in your chat!");
                         Console.WriteLine($"!addnotification [StreamerName] - Adds a streamer to your system when they start streaming");
                         Console.WriteLine("!removenotification [StreamerName] - Removes a streamer from your system");
-
+                        Console.WriteLine("");
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                     }
 
@@ -229,7 +230,10 @@ namespace UnsociableBot
         {
             Console.WriteLine($"Channel Joined: {e.Channel}.");
 
+#if RELEASE
+
             client.SendMessage(e.Channel, "Hey guys!");
+#endif
         }
 
         private void Client_OnConnected(object sender, TwitchLib.Client.Events.OnConnectedArgs e)
@@ -248,6 +252,11 @@ namespace UnsociableBot
         {
             Console.WriteLine($"Joining Additional Channels");
             client.JoinChannel("gingyplus");
+        }
+
+        public static void SendMessage(string channel, string message)
+        {
+            client.SendMessage(channel, message);
         }
     }
 }
