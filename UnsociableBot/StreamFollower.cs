@@ -13,24 +13,24 @@ namespace UnsociableBot
     {
         public static List<ChannelFollow> StreamFollowers = new List<ChannelFollow>();
 
-        private static readonly string _streamFollowersPath = $"{Program.LocalFilePath}/StreamFollowers.json";
+        private static readonly string StreamFollowersPath = $"{Program.LocalFilePath}/StreamFollowers.json";
 
         public static void InitFollowers()
         {
             List<ChannelFollow> followers = TwitchApi.FetchFollowers(Settings.Default.TwitchUsername).Result;
 
-            bool fileExists = File.Exists(_streamFollowersPath);
+            bool fileExists = File.Exists(StreamFollowersPath);
 
             if (!fileExists)
             {
-                File.WriteAllText(_streamFollowersPath, JsonConvert.SerializeObject(followers, Formatting.Indented));
+                File.WriteAllText(StreamFollowersPath, JsonConvert.SerializeObject(followers, Formatting.Indented));
                 Console.WriteLine($"You have {followers.Count} Followers!");
 
                 StreamFollowers = followers;
                 return;
             }
 
-            using (StreamReader sr = new StreamReader(_streamFollowersPath))
+            using (StreamReader sr = new StreamReader(StreamFollowersPath))
             {
                 string contents = sr.ReadToEnd();
 
@@ -67,7 +67,7 @@ namespace UnsociableBot
 
                 StreamFollowers = followers;
 
-                File.WriteAllText(_streamFollowersPath, JsonConvert.SerializeObject(StreamFollowers, Formatting.Indented));
+                File.WriteAllText(StreamFollowersPath, JsonConvert.SerializeObject(StreamFollowers, Formatting.Indented));
             }
         }
 
@@ -117,7 +117,7 @@ namespace UnsociableBot
             {
                 StreamFollowers = channelFollows;
 
-                File.WriteAllText(_streamFollowersPath, JsonConvert.SerializeObject(StreamFollowers, Formatting.Indented));
+                File.WriteAllText(StreamFollowersPath, JsonConvert.SerializeObject(StreamFollowers, Formatting.Indented));
             }
         }
     }
