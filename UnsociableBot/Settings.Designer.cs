@@ -23,27 +23,21 @@ namespace UnsociableBot {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("po6jzxesx6kka2tsk6c56etyec6zdq")]
-        public string TwitchClientId {
-            get {
-                return ((string)(this["TwitchClientId"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("mihvo9g8bd740xr3fvedcfqx3wxgh7")]
         public string TwitchClientToken {
             get {
                 return ((string)(this["TwitchClientToken"]));
             }
+            set {
+                this["TwitchClientToken"] = value;
+            }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool UpgradeRequired {
             get {
                 return ((bool)(this["UpgradeRequired"]));
@@ -55,7 +49,7 @@ namespace UnsociableBot {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("UnsociableStreamer")]
         public string TwitchUsername {
             get {
                 return ((string)(this["TwitchUsername"]));

@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Timers;
+using TwitchLib.Api.V5.Models.Users;
 using TwitchLib.Client;
 using TwitchLib.Client.Enums;
 using TwitchLib.Client.Extensions;
@@ -71,7 +75,94 @@ namespace UnsociableBot
 #endif
             };
 
-            Console.ReadLine();
+            TwitchApi api = new TwitchApi();
+
+            TwitchApi.StartApi();
+
+            while (!Program.QuitFlag)
+            {
+                string consoleInput = Console.ReadLine();
+
+                if (string.IsNullOrEmpty(consoleInput)) continue;
+
+                if (consoleInput.StartsWith('!'))
+                {
+                    string[] commandSplit = consoleInput.Split(' ');
+
+                    if (commandSplit[0].ToLower() == "!help" || commandSplit[0].ToLower() == "!commands")
+                    {
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.WriteLine($"--- Unsociable's Bot Help ---");
+                        Console.WriteLine("!say [Message] - Says a message in your chat!");
+                        Console.WriteLine($"!addnotification [StreamerName] - Adds a streamer to your system when they start streaming");
+                        Console.WriteLine("!removenotification [StreamerName] - Removes a streamer from your system");
+
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    }
+
+                    if (commandSplit[0].ToLower() == "!say")
+                    {
+                        if (commandSplit.Length < 2)
+                        {
+                            Console.WriteLine($"You need to input a message!");
+                            continue;
+                        }
+
+                        string joined = string.Join(' ', commandSplit.Skip(1));
+
+                        client.SendMessage(Settings.Default.TwitchUsername, joined);
+
+                        Console.WriteLine($"Message sent to {Settings.Default.TwitchUsername} channel: {joined}");
+                    }
+
+                    if (commandSplit[0].ToLower() == "!addnotification")
+                    {
+                        if (commandSplit.Length < 2)
+                        {
+                            Console.WriteLine($"You need to input a streamers channel name!");
+                            continue;
+                        }
+
+                        string joined = string.Join(' ', commandSplit.Skip(1));
+
+                        if (TwitchApi.StreamNotifications.Contains(joined.ToLower()))
+                        {
+                            Console.WriteLine($"You already have {joined} in your notifications!");
+                            continue;
+                        }
+
+                        TwitchApi.StreamNotifications.Add(joined.ToLower());
+                        TwitchApi.SaveStreamNotifications();
+                        Console.WriteLine($"You've added {joined} to your notifications!");
+                    }
+
+                    if (commandSplit[0].ToLower() == "!removenotification")
+                    {
+                        if (commandSplit.Length < 2)
+                        {
+                            Console.WriteLine($"You need to input a streamers channel name!");
+                            continue;
+                        }
+
+                        string joined = string.Join(' ', commandSplit.Skip(1));
+
+                        if (!TwitchApi.StreamNotifications.Contains(joined.ToLower()))
+                        {
+                            Console.WriteLine($"You don't have {joined} in your notifications!");
+                            continue;
+                        }
+
+                        TwitchApi.StreamNotifications.Remove(joined.ToLower());
+                        TwitchApi.SaveStreamNotifications();
+                        Console.WriteLine($"You've removed {joined} from your notifications!");
+                    }
+                }
+
+                if (consoleInput.ToLower() == "quit")
+                {
+                    Program.QuitFlag = true;
+                }
+            }
         }
 
         private void Client_OnNewSubscriber(object sender, TwitchLib.Client.Events.OnNewSubscriberArgs e)
@@ -118,10 +209,19 @@ namespace UnsociableBot
 
         private void Client_OnUserJoined(object sender, TwitchLib.Client.Events.OnUserJoinedArgs e)
         {
-            Console.WriteLine($"{e.Username} has connected to {e.Channel}");
-            if (e.Channel.ToLower() == Settings.Default.TwitchUsername)
+            if (e.Username != client.TwitchUsername)
             {
-                client.SendMessage(e.Channel, $"Welcome {e.Username}!");
+                Console.WriteLine($"{e.Username} has connected to {e.Channel}");
+                if (e.Channel.ToLower() == Settings.Default.TwitchUsername)
+                {
+                    User user = TwitchApi.FetchUser(e.Username).Result;
+
+                    if (user == null) return;
+
+                    Debug.WriteLine($"User {user.DisplayName} type: {user.Type}.");
+
+                    //client.SendMessage(e.Channel, $"Welcome {e.Username}!");
+                }
             }
         }
 
@@ -140,7 +240,7 @@ namespace UnsociableBot
         private void Client_OnLog(object sender, TwitchLib.Client.Events.OnLogArgs e)
         {
 #if DEBUG
-            Console.WriteLine($"{e.DateTime.ToString(CultureInfo.CurrentCulture)}: {e.BotUsername} - {e.Data}");
+            //Console.WriteLine($"{e.DateTime.ToString(CultureInfo.CurrentCulture)}: {e.BotUsername} - {e.Data}");
 #endif
         }
 
