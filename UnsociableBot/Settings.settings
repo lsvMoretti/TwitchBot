@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="UnsociableBot" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="TwitchClientId" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">po6jzxesx6kka2tsk6c56etyec6zdq</Value>
+    </Setting>
+    <Setting Name="TwitchClientToken" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">a99lm0yicz9nkgagtz70ywhl2uhzgy</Value>
+    </Setting>
+    <Setting Name="UpgradeRequired" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TwitchUsername" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>
